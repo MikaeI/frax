@@ -15,7 +15,7 @@ class Store {
     const { data } = this;
     data[key] = value;
   }
-  
+
   append(key, valueKey, value) {
     const { data } = this;
     data[key][valueKey] = value;
@@ -32,7 +32,7 @@ let templates;
 class Frax {
   constructor() {
     this.store = new Store();
-    return function(idOrTemplates, parent, next) {
+    return function(idOrTemplates, parent, next, _after) {
       let id = idOrTemplates;
       const { store } = this,
         { nodes } = store;
@@ -60,65 +60,87 @@ class Frax {
         else nodes[(uniqueId = id)] = {};
       else {
         const elem = document.getElementById((uniqueId = id));
-        if (elem === null) return false;
-        elem.parentNode.removeChild(elem);
+        if (elem !== null) elem.parentNode.removeChild(elem);
       }
       if (typeof templates[id] !== "function") {
         templates[id] = () => ``;
       }
-      document.querySelector(
-        `#${parent}`
-      ).innerHTML += `<div id="${uniqueId}">${
-        idOrTemplates !== "wrap" ? templates[id](store.get(id)) : ``
-      }</div>`;
+      const after = uniqueId => {
+        if (_after !== undefined) {
+          _after(uniqueId);
+        } else {
+          Object.keys(store.clickableClassNames).forEach(key => {
+            document
+              .querySelectorAll("." + key)
+              .forEach((item, index) => (item.id = `${key}_${index}`));
+            this.on("." + key, "click", store.clickableClassNames[key]);
+          });
+        }
+      };
+      if (parent.indexOf("node_") === 0) {
+        document.querySelector(
+          `#${parent}`
+        ).innerHTML += `<div id="${uniqueId}">${
+          idOrTemplates !== "wrap" ? templates[id](store.get(id)) : ``
+        }</div>`;
+      } else {
+        document.querySelector(
+          `#${parent}`
+        ).innerHTML = `<div id="${uniqueId}">${
+          idOrTemplates !== "wrap" ? templates[id](store.get(id)) : ``
+        }</div>`;
+      }
       if (typeof next === "string") {
         fetch("https://" + next)
           .then(response => response.json())
           .then(data => {
             store.set(idOrTemplates, data);
             frax(idOrTemplates, parent);
+            after(uniqueId);
           });
       } else if (next === undefined) {
-        Object.keys(store.clickableClassNames).forEach((key, index) => {
-          document.querySelectorAll("." + key).forEach(item => item.id = `${key}_${index}`);
-          this.on("." + key, "click", store.clickableClassNames[key]);
-        });
+        after(uniqueId);
       } else if (typeof next === "object") {
         Object.keys(next).forEach(key => {
           store.append(idOrTemplates, key, next[key]);
         });
         frax(idOrTemplates, parent);
-      } else next(uniqueId);
+      } else {
+        if (_after === undefined) next(uniqueId);
+      }
     }.bind(this);
   }
   on(selector, event, action) {
-    const assign = element =>
-        element.addEventListener(
-          event || null,
-          this.store.listeners[selector] || null
-        ),
-      retract = element =>
-        element.removeEventListener(
-          event || null,
-          this.store.listeners[selector] || null
-        );
+    const assign = (element, index) =>
+      element.addEventListener(
+        event || null,
+        (element[`${selector.slice(1)}_${index}`] = function fn() {
+          this.store.lastTarget = document.getElementById(
+            `${selector.slice(1)}_${index}`
+          ).value;
+          this.store.listeners[selector]() || null;
+        }.bind(this))
+      );
     selector === document
-    ? assign(document)
-    : document.querySelectorAll(selector).forEach((item, index) => {
-        if (this.store.listeners[selector] !== undefined) {
-          retract(item);
-        }
-        this.store.listeners[selector] = () => {
-          action();
-          const focusEvent = document.createEvent('HTMLEvents');
-          focusEvent.initEvent('focus', true, false);
-          document.getElementById(`${selector.slice(1)}_${index + 1}`).focus();
-        }
-        assign(item);
-      });
+      ? document.addEventListener(event || null, action)
+      : document.querySelectorAll(selector).forEach((item, index) => {
+          item.removeEventListener(
+            event || null,
+            item[`${selector.slice(1)}_${index}`]
+          );
+          this.store.listeners[selector] = () => {
+            action();
+            //const focusEvent = document.createEvent("HTMLEvents");
+            //focusEvent.initEvent("focus", true, false);
+            //document.getElementById(`${selector.slice(1)}_${index}`).focus();
+          };
+          assign(item, index);
+        });
   }
 }
 
 window.frax = new Frax();
 
 // TODO: persist store in localStorage
+// TODO: undo/redo
+
