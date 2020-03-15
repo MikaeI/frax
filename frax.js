@@ -46,11 +46,6 @@ class Frax {
         });
         return false;
       }
-      if (!nodes[node]) nodes[node] = {};
-      else {
-        elem = document.getElementById(node);
-        if (elem !== null) elem.parentNode.removeChild(elem);
-      }
       after = () => {
         if (_after !== undefined) _after();
         else {
@@ -73,9 +68,16 @@ class Frax {
           }, 500);
         }
       };
-      document.body.innerHTML += `<section id="${node}">${templates[node](
-        store.get(node)
-      )}</section>`;
+      if (!nodes[node]) {
+        nodes[node] = {};
+        document.body.innerHTML += `<section id="${node}">${templates[node](
+          store.get(node)
+        )}</section>`;
+      } else {
+        document.getElementById(node).innerHTML = templates[node](
+          store.get(node)
+        );
+      }
       if (typeof value === "string") {
         value.indexOf(".") !== -1
           ? fetch(value.indexOf("->") !== -1 ? value.split("->")[1] : value)
