@@ -1,24 +1,5 @@
-# frax
-
-> Frax provides an abstraction layer for simpler coding of web user interfaces
-
-## Requirements
-
-- None
-
-## Install
-
-`<script src="https://www.persille.tech/lib/frax/frax.js"></script>`
-
-## Usage
-
-Example usage:
-
-```
-// TODO
-```
-
-
-## License
-
-MIT © [Mikael Åsbjørnsson-Stensland](http://persille.no/)
+<object data="https://raw.githubusercontent.com/MikaeI/frax/master/Frax%20presentation.pdf" type="application/pdf" width="700px" height="700px">
+    <embed src="https://raw.githubusercontent.com/MikaeI/frax/master/Frax%20presentation.pdf">
+        <p>This browser does not support PDFs. Please download the PDF to view it: <a href="https://raw.githubusercontent.com/MikaeI/frax/master/Frax%20presentation.pdf">Download PDF</a>.</p>
+    </embed>
+</object>
