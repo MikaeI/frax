@@ -61,6 +61,8 @@ class Frax {
               .forEach((item, index) => (item.id = `${key}_${index}`));
             this.on("." + key, "change", store.changeableClassNames[key]);
           });
+          if (store.lastTarget !== undefined)
+            document.getElementById(store.lastTarget.id).focus();
           setTimeout(() => {
             document.querySelectorAll(".deleteme").forEach(el => {
               el.parentNode.removeChild(el);
@@ -129,14 +131,10 @@ class Frax {
           );
           this.store.listeners[selector] = () => {
             action();
-            //const focusEvent = document.createEvent("HTMLEvents");
-            //focusEvent.initEvent("focus", true, false);
-            //document.getElementById(`${selector.slice(1)}_${index}`).focus();
           };
           assign(item, index);
         });
   }
 }
 window.frax = new Frax();
-// persist in localstorage
-
+// TODO: persist in localstorage
