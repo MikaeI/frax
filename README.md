@@ -13,8 +13,7 @@
 
 ---
 
-## `frax("foo", data, fn)`
-*One method to rule them all*
+## `frax("foo", data, fn) // One method to rule them all`
 
 ---
 
