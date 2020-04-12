@@ -11,8 +11,12 @@
 * **How performant is it?** *No idea!*
 * **Is it shitty?** *Isn’t everythinɠ̴̗͂?*
 
+---
+
 ## `frax("foo", data, fn)`
 *One method to rule them all*
+
+---
 
 ## Initialization
 
@@ -90,6 +94,8 @@ In Frax, the event handling for our DOM-elements is represented as special store
 ## The pooping of the pants
 
 **I’ve probably overlooked a lot of stuff.**
+
+---
 
 *Thanks.*
 
