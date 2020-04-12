@@ -6,12 +6,12 @@
 * **Declarative**
 * **Has no external dependencies**
 * **Exposes a single flexible method to unify data binding and UI rendering**
-* **What?** Yeah, I don’t know...
-* **How large is it?** 1 KB (gzipped)
-* **How performant is it?** No idea!
-* **Is it shitty?** Isn’t everythinɠ̴̗͂?
+* **What?** *Yeah, I don’t know...*
+* **How large is it?** *1 KB (gzipped)*
+* **How performant is it?** *No idea!*
+* **Is it shitty?** *Isn’t everythinɠ̴̗͂?*
 
-## frax("foo", data, fn)
+## `frax("foo", data, fn)`
 *One method to rule them all*
 
 ## Initialization
@@ -91,6 +91,6 @@ In Frax, the event handling for our DOM-elements is represented as special store
 
 **I’ve probably overlooked a lot of stuff.**
 
-## Thanks.
+*Thanks.*
 
 ![alt text](https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Nellie_Bly-Mad-House-07.png/400px-Nellie_Bly-Mad-House-07.png "Got poop?")
