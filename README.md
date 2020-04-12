@@ -45,7 +45,7 @@ frax([
 
 **Next we want to render something based on our template. Using the frax-method we perform render and define state at the same time.**
 
-The first argument should in this case be a string which denotes the name of the section being rendered. This name corresponds to the naming in the template object. The second argument contains the data being passed. A frax- method with these two parameters defined will render markup in the body-element of the web page.
+The first argument should in this case be a string which denotes the name of the section being rendered. This name corresponds to the naming in the template object. The second argument contains the data being passed. A frax-method with these two parameters defined will render markup in the body-element of the web page.
 
 ```javascript
 frax([
@@ -66,7 +66,7 @@ For example: `store.get("header").title` will now output: `"How to go about poop
 
 ## The store
 
-**The store exposes a get-method for reading properties, as well as set- and append- methods for writing. However, the main way of writing to the store is to pass data via the second frax-parameter like we saw in the last example. There are three variants of doing this:**
+**The store exposes a get-method for reading properties, as well as set- and append-methods for writing. However, the main way of writing to the store is to pass data via the second frax-parameter like we saw in the last example. There are three variants of doing this:**
 
 * Passing some data. This will add (or replace if already written) the specified properties in the header namespace on the store: `frax("header", { title: "How to go about pooping your pants", author: "Mikael" });`
 * Passing the result of a fetch request (as JSON). The data returned will replace everything written in the header namespace on the store: `frax("header", "https://www.poop-api.com/api/about");`
