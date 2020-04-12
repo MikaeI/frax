@@ -76,7 +76,7 @@ frax("header", { title: "Here’s the poop" }, () => {
     "myPoopList",
     "https://www.poop.io/api/poop", 
     () => {
-      if (store.data.myPoops.length === 0) {
+      if (store.get("myPoopList").length === 0) {
         frax("header", { title: "Sorry, no poop." };
       }
     }
